@@ -2,8 +2,8 @@ name: Build APK
 
 on:
   push:
-    branches: [ main ]  # Ganti 'main' jika branch utama Anda bernama lain
-  workflow_dispatch:    # Memungkinkan trigger manual
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-apk:
@@ -13,13 +13,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # ... (setelah step checkout)
+    # Jika file berada dalam subfolder, pindahkan ke root
     - name: Move main files
       run: |
-      mv main.py .
-      mv absensi_guru.csv .
-      mv buildozer.spec .
-      
+        mv AbsenGuru/main.py .
+        mv AbsenGuru/absensi_guru.csv .
+        mv AbsenGuru/buildozer.spec .
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -30,7 +30,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y git zip unzip openjdk-17-jdk
         pip install buildozer cython==0.29.33 virtualenv
-        # ... (dalam Install dependencies)
         pip install kivy==2.3.0
         
     - name: Build APK
